@@ -2,60 +2,59 @@
 
 @theme {
   /* ⚫ Neutrals & Base */
-  --color-secondary-0: #00000000;
-  --color-secondary-10: #0000001a;
-  --color-secondary-50: #0a0a0a;
-  --color-secondary-100: #030213;
-  --color-secondary-150: #0302131a;
-  --color-secondary-200: #03021333;
-  --color-secondary-300: #717182;
-  --color-secondary-400: #ececf0;
-  --color-secondary-450: #ececf04d;
-  --color-secondary-500: #eceef2;
-  --color-secondary-550: #f3f3f5;
-  --color-secondary-600: #f9fafb;
-  --color-secondary-700: #ffffff;
-  --color-secondary-750: #ffffff00;
-  --color-secondary-800: #ffffffcc;
-  --color-secondary-850: #ffffffe5;
-  --color-secondary-900: #fffffff2;
+  --color-secondary0: #00000000;
+  --color-secondary10: #0000001a;
+  --color-secondary50: #0a0a0a;
+  --color-secondary100: #030213;
+  --color-secondary150: #0302131a;
+  --color-secondary200: #03021333;
+  --color-secondary300: #717182;
+  --color-secondary400: #ececf0;
+  --color-secondary450: #ececf04d;
+  --color-secondary500: #eceef2;
+  --color-secondary550: #f3f3f5;
+  --color-secondary600: #f9fafb;
+  --color-secondary750: #ffffff00;
+  --color-secondary800: #ffffffcc;
+  --color-secondary850: #ffffffe5;
+  --color-secondary900: #fffffff2;
 
   /* 🟡 Yellows / Oranges / Browns */
-  --color-warm-100: #9f2d00;
-  --color-warm-200: #894b00;
-  --color-warm-300: #d08700;
-  --color-warm-400: #fdc700;
-  --color-warm-500: #fef9c2;
-  --color-warm-600: #ffedd4;
+  --color-warm100: #9f2d00;
+  --color-warm200: #894b00;
+  --color-warm300: #d08700;
+  --color-warm400: #fdc700;
+  --color-warm500: #fef9c2;
+  --color-warm600: #ffedd4;
 
   /* 🟢 Greens */
-  --color-success-100: #00a63e;
-  --color-success-200: #00c950;
-  --color-success-300: #016630;
-  --color-success-400: #dcfce7;
+  --color-success100: #00a63e;
+  --color-success200: #00c950;
+  --color-success300: #016630;
+  --color-success400: #dcfce7;
 
   /* 🔵 Blues */
-  --color-primary-50: #2b7fff;
-  --color-primary-100: #1447e6;
-  --color-primary-200: #155dfc;
-  --color-primary-300: #193cb8;
-  --color-primary-400: #364153;
-  --color-primary-450: #465a7e66;
-  --color-primary-500: #4a5565;
-  --color-primary-550: #bedbff;
-  --color-primary-600: #c6d2ff;
-  --color-primary-700: #dbeafe;
-  --color-primary-800: #e0e7ff;
-  --color-primary-900: #eff6ff;
+  --color-primary50: #2b7fff;
+  --color-primary100: #1447e6;
+  --color-primary200: #155dfc;
+  --color-primary300: #193cb8;
+  --color-primary400: #364153;
+  --color-primary450: #465a7e66;
+  --color-primary500: #4a5565;
+  --color-primary550: #bedbff;
+  --color-primary600: #c6d2ff;
+  --color-primary700: #dbeafe;
+  --color-primary800: #e0e7ff;
+  --color-primary900: #eff6ff;
 
   /* 🟣 Purples / Pinks */
-  --color-accent-100: #6e11b0;
-  --color-accent-200: #9810fa;
-  --color-accent-300: #f3e8ff;
-  --color-accent-400: #fce7f3;
-  --color-accent-500: #a3004c;
+  --color-accent100: #6e11b0;
+  --color-accent200: #9810fa;
+  --color-accent300: #f3e8ff;
+  --color-accent400: #fce7f3;
+  --color-accent500: #a3004c;
 
   /* 🔴 Reds */
-  --color-danger-100: #9f0712;
-  --color-danger-200: #ffe2e2;
+  --color-danger100: #9f0712;
+  --color-danger200: #ffe2e2;
 }
