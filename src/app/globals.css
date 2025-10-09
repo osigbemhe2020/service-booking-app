@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* ⚫ Neutrals & Base */
+  --color-secondary0: #00000000;
+  --color-secondary10: #0000001a;
+  --color-secondary50: #0a0a0a;
+  --color-secondary100: #030213;
+  --color-secondary150: #0302131a;
+  --color-secondary200: #03021333;
+  --color-secondary300: #717182;
+  --color-secondary400: #ececf0;
+  --color-secondary450: #ececf04d;
+  --color-secondary500: #eceef2;
+  --color-secondary550: #f3f3f5;
+  --color-secondary600: #f9fafb;
+  --color-secondary750: #ffffff00;
+  --color-secondary800: #ffffffcc;
+  --color-secondary850: #ffffffe5;
+  --color-secondary900: #fffffff2;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 🟡 Yellows / Oranges / Browns */
+  --color-warm100: #9f2d00;
+  --color-warm200: #894b00;
+  --color-warm300: #d08700;
+  --color-warm400: #fdc700;
+  --color-warm500: #fef9c2;
+  --color-warm600: #ffedd4;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* 🟢 Greens */
+  --color-success100: #00a63e;
+  --color-success200: #00c950;
+  --color-success300: #016630;
+  --color-success400: #dcfce7;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* 🔵 Blues */
+  --color-primary50: #2b7fff;
+  --color-primary100: #1447e6;
+  --color-primary200: #155dfc;
+  --color-primary300: #193cb8;
+  --color-primary400: #364153;
+  --color-primary450: #465a7e66;
+  --color-primary500: #4a5565;
+  --color-primary550: #bedbff;
+  --color-primary600: #c6d2ff;
+  --color-primary700: #dbeafe;
+  --color-primary800: #e0e7ff;
+  --color-primary900: #eff6ff;
+
+  /* 🟣 Purples / Pinks */
+  --color-accent100: #6e11b0;
+  --color-accent200: #9810fa;
+  --color-accent300: #f3e8ff;
+  --color-accent400: #fce7f3;
+  --color-accent500: #a3004c;
+
+  /* 🔴 Reds */
+  --color-danger100: #9f0712;
+  --color-danger200: #ffe2e2;
 }
