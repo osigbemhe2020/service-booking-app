@@ -6,7 +6,7 @@ import { MdOutlineStorefront } from "react-icons/md";
 const ProviderNav = () => {
   return (
     <section className="w-full">
-      <menu className=" flex justify-between items-center w-11/12 mx-auto my-4">
+      <menu className=" flex justify-between items-center w-11/12 mx-auto py-4 ">
         <div className="flex  gap-4 items-center">
           <li>
             <Link href="/">
@@ -43,6 +43,7 @@ const ProviderNav = () => {
           />
         </div>
       </menu>
+      <hr className="text-secondary400" />
     </section>
   );
 };

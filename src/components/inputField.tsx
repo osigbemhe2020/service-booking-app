@@ -26,7 +26,7 @@ const InputField = ({
       <input
         type={type}
         id={id}
-        className="bg-secondary550 border border-white text-secondary300 text-sm rounded-lg focus:ring-secondary400 focus:border-secondary400 block w-full px-3 py-1 "
+        className="bg-secondary550 border border-white text-secondary300 text-sm rounded-lg focus:ring-secondary400 focus:border-secondary400 block w-full px-3 py-2 "
         placeholder={placeholder}
         required={required}
       />
