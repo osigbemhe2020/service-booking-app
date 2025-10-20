@@ -47,6 +47,7 @@ const ProviderLogin = () => {
               hoverColor="bg-seondary200"
               text="Sign In"
               textColor="text-secondary600"
+              href="/signin"
             />
             <p className="text-center">
               Don&apos;t have an account?
