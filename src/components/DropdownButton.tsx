@@ -1,26 +1,25 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-type option = {
-  name: string;
-  id: number;
-};
+
 type DropdownProps = {
   htmlFor: string;
   text: string;
-  options: option[];
+  options: string[];
 };
 
 const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col items-start">
-      <label className="text-secondary50 font-medium" htmlFor={htmlFor}></label>
+    <div className="flex flex-col">
+      <label className="text-secondary50 font-medium mb-2" htmlFor={htmlFor}>
+        {text}
+      </label>
 
       <button
         id={htmlFor}
         data-dropdown-toggle="dropdown"
-        className="text-secondary50 bg-secondary550 hover:bg-secondary450 focus:ring-2 focus:outline-none focus:ring-secondary550 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center 
+        className="text-secondary50 bg-secondary550 hover:bg-secondary450 focus:ring-2 focus:outline-none focus:ring-secondary550 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center relative 
         "
         type="button"
         onClick={() => {
@@ -49,16 +48,16 @@ const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
         id="dropdown"
         className={`${
           open ? "hidden" : "block"
-        } bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44`}
+        } bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 `}
       >
         <ul
-          className="py-2 text-sm text-secondary50"
+          className="text-sm text-secondary50 absolute bg-white py-2 px-8 shadow-secondary300 shadow-md rounded-xl"
           aria-labelledby="dropdownDefaultButton"
         >
           {options?.map((option) => (
-            <li key={option.id}>
+            <li key={option}>
               <Link href="#" className="block px-4 py-2 hover:bg-gray-100 ">
-                {option.name}
+                {option}
               </Link>
             </li>
           ))}

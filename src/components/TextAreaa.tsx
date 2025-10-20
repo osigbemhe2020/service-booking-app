@@ -16,7 +16,7 @@ const Textarea = ({ htmlFor, text, placeholder }: textAreaProps) => {
       <textarea
         id={htmlFor}
         rows={4}
-        className="block p-2.5 w-full text-sm text-secondary50 bg-secondary300 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+        className="block p-2.5 w-full text-sm text-secondary50 bg-secondary900 rounded-lg border border-gray-300"
         placeholder={placeholder}
       ></textarea>
     </div>

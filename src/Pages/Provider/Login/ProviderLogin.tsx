@@ -1,6 +1,6 @@
-import InputField from "@/components/inputField";
+import InputField from "@/components/Input";
 import ProviderNav from "../ProviderNav";
-import PrimaryBtn from "@/components/primaryBtn";
+import PrimaryBtn from "@/components/PrimaryButton";
 import Link from "next/link";
 import { BiStore } from "react-icons/bi";
 import NavBtn from "./NavBtn";

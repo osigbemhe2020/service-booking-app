@@ -3,7 +3,7 @@ import Link from "next/link";
 type NavBtnProps = {
   outlineColor: string;
   text: string;
-  Icon: React.ElementType;
+  Icon?: React.ElementType;
   href: string;
 };
 

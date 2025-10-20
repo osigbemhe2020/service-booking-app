@@ -7,7 +7,7 @@ type CheckboxProps = {
 
 const Checkbox = ({ text, htmlFor, value }: CheckboxProps) => {
   return (
-    <div className="flex items-center ps-3">
+    <div className="flex items-center">
       <input
         id={htmlFor}
         type="checkbox"
@@ -16,7 +16,7 @@ const Checkbox = ({ text, htmlFor, value }: CheckboxProps) => {
       />
       <label
         htmlFor={htmlFor}
-        className="w-full py-3 ms-2 text-sm font-medium text-label"
+        className="w-full py-1 ms-2 text-sm font-medium text-label"
       >
         {text}
       </label>
