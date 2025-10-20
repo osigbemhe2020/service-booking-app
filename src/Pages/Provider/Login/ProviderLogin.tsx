@@ -3,10 +3,32 @@ import ProviderNav from "../ProviderNav";
 import PrimaryBtn from "@/components/primaryBtn";
 import Link from "next/link";
 import { BiStore } from "react-icons/bi";
+import NavBtn from "./NavBtn";
+import { IoPersonOutline } from "react-icons/io5";
+import { MdOutlineStorefront } from "react-icons/md";
+
 const ProviderLogin = () => {
   return (
     <section className="w-full">
-      <ProviderNav />
+      <ProviderNav
+        title="Provider Login"
+        content={
+          <div className="flex gap-2">
+            <NavBtn
+              outlineColor="outline-transparent"
+              Icon={IoPersonOutline}
+              text="My Bookings"
+              href="/my-bookings"
+            />
+            <NavBtn
+              outlineColor="outline-secondary300"
+              Icon={MdOutlineStorefront}
+              text="Become a Provider"
+              href="/register"
+            />
+          </div>
+        }
+      />
       <main className=" mx-auto my-10">
         <div className="flex flex-col gap-1 items-center mb-4">
           <div className="h-18 w-18 bg-secondary400 rounded-full flex items-center justify-center text-3xl">
@@ -18,8 +40,6 @@ const ProviderLogin = () => {
           </p>
         </div>
 
-        {/* h3 */}
-        {/* p */}
         <div>
           <form
             action=""

@@ -16,9 +16,9 @@ const DashboardCard = ({
   Icon,
 }: DashboardCardProps) => {
   return (
-    <div className="p-4 border border-secondary300 rounded-2xl flex  gap-2 items-center  flex-1">
+    <div className="p-4 border border-secondary300 rounded-xl flex  gap-2 items-center  flex-1">
       <div
-        className={`${bgColor} ${iconColor} h-10 w-10 rounded-xl flex items-center justify-center`}
+        className={`${bgColor} ${iconColor} h-10 w-10 rounded-lg flex items-center justify-center`}
       >
         {Icon && <Icon />}
       </div>

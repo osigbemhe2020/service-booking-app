@@ -4,6 +4,8 @@ import DashboardCard from "./DashboardCard";
 import { FaDollarSign, FaRegCalendar } from "react-icons/fa";
 import { IoTrendingUp } from "react-icons/io5";
 import { LuStar } from "react-icons/lu";
+import ProviderNav from "../ProviderNav";
+import { BiStore } from "react-icons/bi";
 // import { FaNairaSign } from "react-icons/fa6";
 
 const serviceTabs = [
@@ -26,7 +28,18 @@ const serviceTabs = [
 const ProviderDashboard = () => {
   return (
     <section className="w-full">
-      <main className="w-10/12 mx-auto flex flex-col gap-8">
+      <ProviderNav
+        title="Provider Dashboard"
+        content={
+          <DashboardBtn
+            Icon={BiStore}
+            href="/dashboard"
+            outlineColor="bg-secondary50"
+            text="Dashboard"
+          />
+        }
+      />
+      <main className="w-10/12 mx-auto flex flex-col gap-6 my-10">
         <header className=" flex justify-between items-center">
           <div>
             <h1 className="font-medium text-2xl">Provider Dashboard</h1>
@@ -121,10 +134,10 @@ const DashboardBtn = ({
 }: DashboardBtnProps) => {
   return (
     <li
-      className={`outline ${outlineColor} rounded-lg flex items-center justify-center p-2 bg-secondary50 text-secondary500`}
+      className={`outline ${outlineColor} rounded-lg flex items-center justify-center px-3 py-2 bg-secondary50 text-secondary500`}
     >
       <Link href={href} className="flex gap-2">
-        {Icon && <Icon />}
+        {Icon && <Icon className="text-xl" />}
         <p className="text-sm">{text}</p>
       </Link>
     </li>
