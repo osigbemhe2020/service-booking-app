@@ -11,7 +11,7 @@ type DropdownProps = {
   options: option[];
 };
 
-const Dropdown = ({ htmlFor, text, options }: DropdownProps) => {
+const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col items-start">
@@ -68,4 +68,4 @@ const Dropdown = ({ htmlFor, text, options }: DropdownProps) => {
   );
 };
 
-export default Dropdown;
+export default DropdownButton;
