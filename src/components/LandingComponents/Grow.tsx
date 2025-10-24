@@ -1,4 +1,5 @@
-{}
+import {Calendar, CreditCard,Bell,TrendingUp} from "lucide-react";
+
 import Image from "next/image";
 import neonOpen from "@/assets/LandingPageAssets/neon-open.jpg";
 
@@ -9,8 +10,8 @@ type ItemProps = {
 };
 
 const Item = ({ title, description,icon }: ItemProps) => (
-  <div className="space-y-2 flex items-start gap-2">
-    <div className="h-5 w-5 mt-1 flex-shrink-0">
+  <div className="space-y-2 flex items-center gap-4">
+    <div className="p-[6px] rounded-sm bg-blue-400 mt-1 flex-shrink-0">
         {icon}
     </div>
     <div>
@@ -40,21 +41,21 @@ const Grow = () => {
                     <Item 
                         title="Grow your Business"
                         description="Reach Thousands of Potential Customers"
-                        icon={<></>}/>
+                        icon={<TrendingUp />}/>
                     <Item
                         title="Manage Bookings"
                         description="Professional booking management tools"
-                        icon={<></>}
+                        icon={<Calendar/>}
                     />
                     <Item
                          title="Get Paid Faster"
                          description="direct payments with automatic Payouts"
-                         icon={<></>}
+                         icon={<CreditCard />}
                     />
                     <Item
                         title="Stay Connected"
                         description="Real time notifications and updates"
-                        icon={<></>}
+                        icon={<Bell/>}
                     />  
                 </div>
                 <div>
