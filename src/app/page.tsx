@@ -4,8 +4,8 @@ import WhySection from "@/components/LandingComponents/WhySection";
 import HowSection from "@/components/LandingComponents/HowSection";
 import PopularSection from "@/components/LandingComponents/PopularSection";
 import  Grow from "@/components/LandingComponents/Grow";
-import Bottom from "@/components/LandingComponents/Bottom";
-import Recomendations from "@/components/LandingComponents/Recomendations";
+import CTASection from "@/components/LandingComponents/CTASection";
+import Testimonials from "@/components/LandingComponents/Testimonials";
 
 
 export default function Home() {
@@ -17,8 +17,8 @@ export default function Home() {
       <HowSection/>
       <PopularSection/>
       <Grow/>
-      <Recomendations/>
-      <Bottom/>
+      <Testimonials/>
+      <CTASection/>
     </div>
   );
 }

@@ -6,9 +6,9 @@ type TopHeadProps = {
 
 const TopHead = ({heading,subheading}:TopHeadProps) => {
   return (
-    <div>
-        <h2>{heading}</h2>
-        <p>{subheading}</p>
+    <div className="text-center mb-16">
+        <h2 className="text-3xl font-bold mb-4">{heading}</h2>
+        <p className="max-w-2xl mx-auto">{subheading}</p>
     </div>
   )
 }
