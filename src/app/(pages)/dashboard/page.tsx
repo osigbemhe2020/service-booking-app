@@ -49,7 +49,7 @@ const Dashboard = () => {
           </div>
           <DashboardBtn
             Icon={IoMdAdd}
-            href="/add-service"
+            href="/book-service"
             outlineColor="bg-secondary50"
             text="Add Service"
           />
@@ -104,7 +104,7 @@ const Dashboard = () => {
             </p>
             <DashboardBtn
               Icon={IoMdAdd}
-              href="/add-service"
+              href="/book-service"
               outlineColor="bg-secondary50"
               text="Add Your First Service"
             />

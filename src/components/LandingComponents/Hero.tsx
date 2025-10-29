@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
-import heroImage from '@/assets/LandingPageAssets/hero.jpg';
+import heroImage from "@/assets/LandingPageAssets/hero.jpg";
 
 const Hero = () => {
   return (
@@ -17,8 +17,9 @@ const Hero = () => {
           </h1>
 
           <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-            Connect with trusted service providers in your area. From beauty treatments
-            to home repairs, book appointments in seconds with BookIt's seamless platform.
+            Connect with trusted service providers in your area. From beauty
+            treatments to home repairs, book appointments in seconds with
+            BookIt&apos;s seamless platform.
           </p>
 
           {/* Buttons */}
@@ -60,6 +61,5 @@ const Hero = () => {
     </section>
   );
 };
-
 
 export default Hero;
