@@ -1,4 +1,5 @@
-import { ArrowRight,Star,MapPin,Users } from "lucide-react";
+import { ArrowRight, Star, MapPin, Users } from "lucide-react";
+import Link from "next/link";
 
 const CTASection = () => {
   return (
@@ -11,31 +12,33 @@ const CTASection = () => {
           <p className="text-lg text-muted-foreground">
             Join BookIt today and experience the future of service booking
           </p>
-          
+
           <div className="flex flex-wrap gap-4 justify-center">
-            <button  className="bg-blue-600 hover:bg-blue-700 flex gap-1 text-white px-8 py-3 rounded-md">
+            <button className="bg-blue-600 hover:bg-blue-700 flex gap-1 text-white px-8 py-3 rounded-md">
               Start Booking Services
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button  className="px-8 py-3 text-primary500 bg-white rounded-md border-1 border-solid border-secondary300">
-              Become a Provider
-            </button>
+            <Link href="/sign-up">
+              <button className="px-8 py-3 text-primary500 bg-white rounded-md border-1 border-solid border-secondary300">
+                Become a Provider
+              </button>
+            </Link>
           </div>
-          <hr className="text-black/20"/>
+          <hr className="text-black/20" />
           <div className="flex flex-wrap gap-6 text-sm text-muted-foreground mx-auto justify-center ">
-                       <div className="flex items-center gap-2">
-                         <Users className="h-5 w-5 text-black/20" />
-                         <span>No credit card</span>
-                       </div>
-                       <div className="flex items-center gap-2">
-                         <MapPin className="h-5 w-5 text-black/20" />
-                         <span>Easy cancellation</span>
-                       </div>
-                       <div className="flex items-center gap-2">
-                         <Star className="h-5 w-5 text-black/20" />
-                         <span>Secure payments</span>
-                       </div>
-                     </div>
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-black/20" />
+              <span>No credit card</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-black/20" />
+              <span>Easy cancellation</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5 text-black/20" />
+              <span>Secure payments</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
