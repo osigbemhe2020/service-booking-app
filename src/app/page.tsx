@@ -1,8 +1,13 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>Welcome to the Landing Page
+    <div>  <Link 
+              href="/book-service"
+              className="bg-primary200 hover:bg-primary100 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
+            >
+              Book a Service
+            </Link>
     {/*<div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image

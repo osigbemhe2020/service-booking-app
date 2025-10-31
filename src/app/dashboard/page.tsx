@@ -1,5 +1,12 @@
 const Dashboard = () => {
-  return <div>Welcome to the Service Booking Dashboard</div>;
+  return (
+    <>
+    <div>
+    <h1>Welcome to the Service Booking Dashboard</h1>
+    </div>
+    </>
+  
+  );
 };
 
 export default Dashboard;
