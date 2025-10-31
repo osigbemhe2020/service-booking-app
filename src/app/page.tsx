@@ -6,7 +6,7 @@ import PopularSection from "@/components/LandingComponents/PopularSection";
 import Grow from "@/components/LandingComponents/Grow";
 import CTASection from "@/components/LandingComponents/CTASection";
 import Testimonials from "@/components/LandingComponents/Testimonials";
-import AppointmentForm from "@/components/appointment_form/appointment_form";
+
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
       <Grow />
       <Testimonials />
       <CTASection />
-      <AppointmentForm />
+      
     </div>
   );
 }
