@@ -38,7 +38,7 @@ const ServiceDetailsPage = () => {
               Home Services
             </h2>
 
-            <div className="flex flex-col gap-3" text-left>
+            <div className="flex flex-col gap-3 text-left" >
               <h3>Professional Home Cleaning</h3>
               <p className="text-gray-400">CleanCo Services</p>
               <div className="flex gap-3 text-gray-400">
