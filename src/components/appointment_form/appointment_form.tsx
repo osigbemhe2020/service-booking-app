@@ -1,6 +1,6 @@
 import React from "react";
-import InputField from "../Input";
-import Textarea from "../TextAreaa";
+import { InputField } from "../popupComponents";
+import { Textarea } from "../popupComponents";
 
 const AppointmentForm = () => {
   return (

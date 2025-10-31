@@ -9,27 +9,25 @@ type DropdownProps = {
 };
 
 const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       <label className="text-secondary50 font-medium mb-2" htmlFor={htmlFor}>
         {text}
       </label>
 
       <button
         id={htmlFor}
-        data-dropdown-toggle="dropdown"
-        className="text-secondary50 bg-secondary550 hover:bg-secondary450 focus:ring-2 focus:outline-none focus:ring-secondary550 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center relative 
-        "
+        className="text-secondary50 bg-secondary550 hover:bg-secondary450 focus:ring-2 focus:outline-none focus:ring-secondary550 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center justify-between w-full"
         type="button"
-        onClick={() => {
-          setOpen(!open);
-        }}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         {text}
         <svg
-          className="w-2.5 h-2.5 ms-3"
-          aria-hidden="true"
+          className={`w-2.5 h-2.5 ml-3 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 10 6"
@@ -44,25 +42,22 @@ const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
         </svg>
       </button>
 
-      <div
-        id="dropdown"
-        className={`${
-          open ? "hidden" : "block"
-        } bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 `}
-      >
-        <ul
-          className="text-sm text-secondary50 absolute bg-white py-2 px-8 shadow-secondary300 shadow-md rounded-xl"
-          aria-labelledby="dropdownDefaultButton"
-        >
-          {options?.map((option) => (
-            <li key={option}>
-              <Link href="#" className="block px-4 py-2 hover:bg-gray-100 ">
-                {option}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {isOpen && (
+        <div className="absolute top-full mt-2 w-full bg-white divide-y divide-gray-100 rounded-lg shadow-md z-10">
+          <ul className="text-sm text-secondary50 py-2">
+            {options?.map((option) => (
+              <li key={option}>
+                <Link
+                  href="#"
+                  className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+                >
+                  {option}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
