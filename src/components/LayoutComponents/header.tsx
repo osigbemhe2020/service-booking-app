@@ -1,6 +1,7 @@
+
 import { Store, User, Calendar,ArrowLeft} from 'lucide-react';
 
-const Header = () => {
+const Header = ({page}: {page: string}) => {
   return (
     <header className="border-b border-black/10 bg-white shadow-sm">
         <div className="container mx-auto px-[23.5px] py-2 flex items-center justify-between">
@@ -14,7 +15,7 @@ const Header = () => {
               </div>
               <div>
                 <p className="font-semibold text-[18px] tracking-[-0.44px] text-gray-800 leading-snug">BookIt</p>
-                <p className="text-[14px] text-gray-500  tracking-[0.12px] leading-tight">Book Appointment</p>
+                <p className="text-[14px] text-gray-500  tracking-[0.12px] leading-tight">{page}</p>
               </div>
             </div>
           </div>

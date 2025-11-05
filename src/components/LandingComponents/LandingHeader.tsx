@@ -1,5 +1,6 @@
 'use client';
-import { Store, User, Calendar, Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { Calendar, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 const LandingHeader = () => {
@@ -11,19 +12,19 @@ const LandingHeader = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center space-x-2">
             <div className="p-1.5 bg-[white] rounded-[10px] flex items-center justify-center">
-              <Calendar size={24} className="text-blue-500" />
+              <Link href="/"><Calendar size={24} className="text-blue-500" /></Link>
             </div>
             <div>
-              <p className="font-semibold text-[18px] sm:text-[20px] tracking-[-0.44px] text-gray-800 leading-snug">BookIt</p>
+              <Link href="/"><p className="font-semibold text-[18px] sm:text-[20px] tracking-[-0.44px] text-gray-800 leading-snug">BookIt</p></Link>
             </div>
           </div>
         </div>
 
         {/* Desktop / tablet nav */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">Browse Services</a>
-          <a className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">For Providers</a>
-          <button className="py-1 px-3 rounded-[8px] bg-[var(--color-primary200)] text-white">Get Started</button>
+          <Link href="/book-service" className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">Browse Services</Link>
+          <Link href="/sign-up" className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">For Providers</Link>
+          <Link href="/sign-up"><button className="py-1 px-3 rounded-[8px] bg-[var(--color-primary200)] text-white">Get Started</button></Link>
         </nav>
 
         {/* Mobile menu button */}

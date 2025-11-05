@@ -8,7 +8,7 @@ import DashboardCard from "@/components/BlessingComponents/DashboardCard";
 import { FaDollarSign, FaRegCalendar } from "react-icons/fa";
 import { IoTrendingUp } from "react-icons/io5";
 import { LuStar } from "react-icons/lu";
-import ProviderNav from "@/components/ProviderNav";
+import ProviderNav from "@/components/BlessingComponents/ProviderNav";
 import { BiStore } from "react-icons/bi";
 // import { FaNairaSign } from "react-icons/fa6";
 
@@ -76,7 +76,7 @@ const InfoBox = ({ onClick }: { onClick: () => void }) => {
           </div>
         )
 } 
-const Service = () => {
+const ServiceContainer = () => {
   return(
    <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       
@@ -84,8 +84,24 @@ const Service = () => {
   )
 }
 
+const Service = () => {
+  return(
+   <div className="border border-black/10 rounded-[14px] w-[400px] h-[350px] p-2">
+    <div></div>
+    <div></div>
+   </div>
+  )
+}
+
 const Dashboard = () => {
   const [showPopup , SetShowPopup] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "provider",
+  })
   const [serviceTabs, setServiceTabs] = useState([
     { id: 1, name: "services", number: 0 },
     { id: 2, name: "bookings", number: 3 },

@@ -11,6 +11,8 @@ type InputFieldProps = {
   text: string;
   placeholder: string;
   required: boolean;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 type CheckboxProps = {
@@ -53,6 +55,8 @@ export const InputField = ({
   text,
   placeholder,
   required,
+  value,
+  onChange
 }: InputFieldProps) => {
   return (
     <div>
@@ -63,6 +67,8 @@ export const InputField = ({
         {text}
       </label>
       <input
+       value={value}
+       onChange={onChange}
         type={type}
         id={id}
         className="bg-secondary550 border border-white text-secondary300 text-sm rounded-lg focus:ring-secondary400 focus:border-secondary400 block w-full px-3 py-2 "

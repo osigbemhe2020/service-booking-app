@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link"; 
 import { CheckCircle2 } from "lucide-react";
 import heroImage from "@/assets/LandingPageAssets/hero.jpg";
 
@@ -24,12 +25,12 @@ const Hero = () => {
 
           {/* Buttons */}
           <div className="flex flex-col w-[60%] sm:w-[80%] sm:flex-row gap-4 justify-center mx-auto sm:mx-0 lg:justify-start">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 rounded-md text-sm sm:text-base">
+            <Link href="/book-service"><button className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 rounded-md text-sm sm:text-base">
               Browse Services
-            </button>
-            <button className="px-6 sm:px-8 py-3 text-primary500 bg-white rounded-md border border-secondary300 text-sm sm:text-base">
+            </button></Link>
+            <Link href="/sign-up"><button className="px-6 sm:px-8 py-3 text-blue-500 bg-white rounded-md border border-black/10 text-sm sm:text-base">
               Join as a provider
-            </button>
+            </button></Link>
           </div>
 
           {/* Features */}

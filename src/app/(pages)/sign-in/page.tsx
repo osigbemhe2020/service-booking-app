@@ -6,7 +6,7 @@ import { BiStore } from "react-icons/bi";
 import { useState } from "react";
 
 
-const SignUp = () => {
+const SignIn = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -81,4 +81,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

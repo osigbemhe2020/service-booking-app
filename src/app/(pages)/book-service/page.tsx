@@ -76,33 +76,6 @@ const BookServicePage = () => {
 
   return (
     <>
-
-      {/* nav section */}
-      <nav className="p-5 flex items-center justify-between border-b">
-        <div className="flex gap-3">
-          <img src="/assets/booking.png" alt="booking" />
-          <div>
-            <h3 className="text-xl font-bold">Bookit</h3>
-            <p className="font-light">Booking Service</p>
-          </div>
-        </div>
-        <input
-          type="text"
-          className="bg-gray-100 p-2 rounded w-1/3 h-10 "
-          placeholder="Search Services..."
-        />
-        <div className="flex gap-3">
-          <div className="flex gap-3 p-2">
-            <img src="/assets/profile.png" alt="profile" className="h-6" />
-            <p className="font-medium">My Bookings</p>
-          </div>
-          <div className="flex gap-3 border border-gray-300 rounded-md p-2">
-            <img src="/assets/shop.png" alt="shop" className="h-6" />
-            <p className="font-medium">Become a Provider</p>
-          </div>
-        </div>
-      </nav>
-
       {/* header section */}
       <header className="mt-10 flex flex-col gap-10 p-5">
         <div className="">
