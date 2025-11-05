@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import AddPaymentForm from "../appointment_form/AddPaymentForm"
 
 interface PaymentStepProps {
   data: any
@@ -21,43 +22,10 @@ export default function PaymentStep({ data, onNext, onPrevious }: PaymentStepPro
 
   return (
     <div className="bg-white rounded-lg border border-slate-200 p-8">
-      <h2 className="text-2xl font-semibold text-slate-900 mb-8">Payment Details</h2>
+      
 
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-slate-900 mb-3">Card Number</label>
-          <input
-            type="text"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
-            placeholder="1234 5678 9012 3456"
-            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-900 mb-3">Expiry Date</label>
-            <input
-              type="text"
-              value={expiryDate}
-              onChange={(e) => setExpiryDate(e.target.value)}
-              placeholder="MM/YY"
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-900 mb-3">CVV</label>
-            <input
-              type="text"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-              placeholder="123"
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            />
-          </div>
-        </div>
-
+      <div className="space-y-2">
+        <AddPaymentForm/>
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
           <div className="flex justify-between items-center">
             <span className="text-slate-600">Total Amount</span>

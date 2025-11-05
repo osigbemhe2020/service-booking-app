@@ -1,19 +1,6 @@
 "use client"
-
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-
-interface BookingData {
-  service: string;
-  provider: string;
-  date: string;
-  time: string;
-  duration: number;
-  serviceFee: number;
-  bookingFee: number;
-  name: string;
-  email: string;
-  phone: string;
-}
 
 interface BookingSelection {
   date: string;
@@ -146,7 +133,18 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
 };
 
 
-
+interface BookingData {
+  service: string;
+  provider: string;
+  date: string;
+  time: string;
+  duration: number;
+  serviceFee: number;
+  bookingFee: number;
+  name: string;
+  email: string;
+  phone: string;
+}
 
 // DateTimeStep component that integrates with BookingFlow
 interface DateTimeStepProps {
@@ -178,16 +176,19 @@ const DateTimeStep: React.FC<DateTimeStepProps> = ({ data, onNext }) => {
         initialTime={data.time}
       />
       
-      {selectedData && (
-        <div className="flex justify-end">
+    
+        <div className="flex gap-4 justify-between">
+          <button className='flex-1 border border-slate-300 text-slate-900 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors'>
+            <Link href='/'> Back to Services</Link>
+          </button>
           <button
             onClick={handleContinue}
-            className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
+            className="flex-1 bg-slate-900 text-white py-3 rounded-lg font-medium hover:bg-slate-800 transition-colors"
           >
             Continue
           </button>
         </div>
-      )}
+     
     </div>
   );
 };
