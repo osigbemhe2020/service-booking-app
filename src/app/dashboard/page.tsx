@@ -1,6 +1,5 @@
  "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import BookServicePopup from "@/components/BookServicePopup";
 import { IoMdAdd } from "react-icons/io";
@@ -10,7 +9,9 @@ import { IoTrendingUp } from "react-icons/io5";
 import { LuStar } from "react-icons/lu";
 import ProviderNav from "@/components/BlessingComponents/ProviderNav";
 import { BiStore } from "react-icons/bi";
-// import { FaNairaSign } from "react-icons/fa6";
+import { Users } from "lucide-react";
+import { addService, getServices, type SessionService } from "@/lib/sessionServices";
+
 
 type ServiceTab = {
   id: number;
@@ -25,6 +26,7 @@ type DashboardBtnProps = {
  onClick: () => void
 };
 
+type ServiceProps = SessionService;
 const DashboardBtn = ({
   outlineColor,
   text,
@@ -76,42 +78,64 @@ const InfoBox = ({ onClick }: { onClick: () => void }) => {
           </div>
         )
 } 
-const ServiceContainer = () => {
-  return(
-   <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      
-   </div>
-  )
-}
+const ServiceContainer = ({ services }: { services: SessionService[] }) => {
+  return (
+    <div className="mt-6 px-6 grid sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-8">
+      {services.map((s, idx) => (
+        <Service key={`${s.title}-${idx}`} title={s.title} category={s.category} cost={s.cost} duration={s.duration} />
+      ))}
+    </div>
+  );
+};
 
-const Service = () => {
+const Service = ({title,category,cost,duration}: ServiceProps) => {
   return(
-   <div className="border border-black/10 rounded-[14px] w-[400px] h-[350px] p-2">
-    <div></div>
-    <div></div>
+   <div className="border border-black/10 flex flex-col justify-between rounded-[14px]  h-[350px] p-4">
+    <div className="flex justify-between"><p>{category}</p><p>${cost}</p></div>
+    <div className="space-y-2">
+      <h3 className="font-semibold">{title}</h3>
+      <p className="text-black/70">{duration}</p>
+      <p className="text-black/70 flex  gap-2 items-center"><Users className="h-5 w-5 text-black/20" /> 60 bookings</p>
+      <p className="text-black/70">Status: <span className="text-green-500">Active</span></p>
+    </div>
    </div>
   )
 }
 
 const Dashboard = () => {
   const [showPopup , SetShowPopup] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "provider",
-  })
+  const [services, setServices] = useState<SessionService[]>([...getServices()]);
   const [serviceTabs, setServiceTabs] = useState([
-    { id: 1, name: "services", number: 0 },
+    { id: 1, name: "services", number: getServices().length },
     { id: 2, name: "bookings", number: 3 },
     { id: 3, name: "analytics" },
     { id: 4, name: "profile" },
   ]);
+  const initialDraft = {
+    title: "",
+    location: "",
+    category: "Consulting" as SessionService["category"],
+    description: "",
+    price: "",
+    duration: "15 mins" as SessionService["duration"],
+    availability: "",
+    features: "",
+    images: "",
+  };
+  const [serviceDraft, setServiceDraft] = useState<typeof initialDraft>(initialDraft);
 
  const handleClick = () =>{
     SetShowPopup(true);
  } 
+  const handleCreateService = (service: SessionService) => {
+    addService(service);
+    const next = [...getServices()];
+    setServices(next);
+    setServiceTabs((prev) =>
+      prev.map((t) => (t.id === 1 ? { ...t, number: next.length } : t))
+    );
+    setServiceDraft(initialDraft);
+  };
   return (
     <section className="w-full">
       <ProviderNav
@@ -172,11 +196,11 @@ const Dashboard = () => {
         </section>
          <TabsComponent serviceTabs={serviceTabs} />
 
-        <div className=" border border-secondary400 rounded-xl py-10">
-           {serviceTabs[0].number === 0 ? (
+        <div className=" border border-secondary400 rounded-xl py-8">
+          {services.length === 0 ? (
             <InfoBox onClick={handleClick} />
           ) : (
-           <InfoBox onClick={handleClick} />
+            <ServiceContainer services={services} />
           )}
         </div>
 
@@ -184,6 +208,9 @@ const Dashboard = () => {
         <BookServicePopup 
           isOpen={showPopup}
           onClose={() => SetShowPopup(false)}
+          onCreate={handleCreateService}
+          value={serviceDraft}
+          onChange={setServiceDraft}
         />
       </main>
     </section>

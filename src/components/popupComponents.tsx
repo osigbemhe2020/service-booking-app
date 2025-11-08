@@ -2,6 +2,9 @@ type textAreaProps = {
   htmlFor: string;
   text: string;
   placeholder: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  name?: string;
 };
 
 type InputFieldProps = {
@@ -13,6 +16,7 @@ type InputFieldProps = {
   required: boolean;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
 };
 
 type CheckboxProps = {
@@ -29,7 +33,7 @@ export const SubHeading = ({ title }: { title: string }) => {
   return <p className="text-secondary300 text-sm">{title}</p>;
 }
 
-export const Textarea = ({ htmlFor, text, placeholder }: textAreaProps) => {
+export const Textarea = ({ htmlFor, text, placeholder, value, onChange, name }: textAreaProps) => {
   return (
     <div>
       <label
@@ -40,9 +44,12 @@ export const Textarea = ({ htmlFor, text, placeholder }: textAreaProps) => {
       </label>
       <textarea
         id={htmlFor}
+        name={name}
         rows={4}
         className="block p-2.5 w-full text-sm text-secondary50 bg-secondary900 rounded-lg border border-gray-300"
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
       ></textarea>
     </div>
   );
@@ -56,7 +63,8 @@ export const InputField = ({
   placeholder,
   required,
   value,
-  onChange
+  onChange,
+  name
 }: InputFieldProps) => {
   return (
     <div>
@@ -71,7 +79,8 @@ export const InputField = ({
        onChange={onChange}
         type={type}
         id={id}
-        className="bg-secondary550 border border-white text-secondary300 text-sm rounded-lg focus:ring-secondary400 focus:border-secondary400 block w-full px-3 py-2 "
+        name={name}
+        className="bg-secondary550 border border-white text-black/80 text-sm rounded-lg focus:ring-secondary400 focus:border-secondary400 block w-full px-3 py-2 "
         placeholder={placeholder}
         required={required}
       />

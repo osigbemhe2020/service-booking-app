@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
 import BookingCard from "@/components/PaulComponents/BookingCard";
 import TabFilter from "@/components/PaulComponents/TabFilter";
 import { Plus, Filter, Calendar, Phone,} from "lucide-react";
@@ -70,10 +71,12 @@ const Home  = () => {
               Manage your appointments and booking history
             </p>
           </div>
+          <Link href = "/book-service">
           <button className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary-dark transition-smooth font-medium shadow-md">
             <Plus className="w-5 h-5" />
             Book New Service
           </button>
+          </Link>
         </div>
 
         {/* Stats */}

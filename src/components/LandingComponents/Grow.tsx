@@ -1,6 +1,7 @@
 import {Calendar, CreditCard,Bell,TrendingUp} from "lucide-react";
 
 import Image from "next/image";
+import Link from "next/link";
 import neonOpen from "@/assets/LandingPageAssets/neon-open.jpg";
 
 type ItemProps = {
@@ -59,7 +60,9 @@ const Grow = () => {
                     />  
                 </div>
                 <div>
+                    <Link href="/sign-up">
                     <button className="shadow-xl px-4 py-2 rounded-md hover:shadow-2xl bg-white text-blue-700 transition-all">Start your business journey</button>
+                    </Link>
                 </div>
             </div>   
              <div>

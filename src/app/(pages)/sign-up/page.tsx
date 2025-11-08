@@ -4,16 +4,19 @@ import PrimaryBtn from "@/components/PrimaryButton";
 import Link from "next/link";
 import { BiStore } from "react-icons/bi";
 import { useState } from "react";
+import { addUser, findUserByEmail } from "@/lib/sessionUsers";
+import { useRouter } from "next/navigation";
 
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     confirm_password: "",
   });
 
-   const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({    
@@ -22,6 +25,36 @@ const SignUp = () => {
     }));
     setError("");
   }
+
+  const isValidEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { email, password, confirm_password } = formData;
+
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+    if (password !== confirm_password) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (findUserByEmail(email)) {
+      setError("An account with this email already exists.");
+      return;
+    }
+
+    addUser({ email, password });
+    router.push("/sign-in");
+  };
   return (
     <section className="w-full">
       
@@ -30,7 +63,7 @@ const SignUp = () => {
           <div className="h-18 w-18 bg-secondary400 rounded-full flex items-center justify-center text-3xl">
             <BiStore />
           </div>
-          <h3>Provider Sign In</h3>
+          <h3>Provider Sign Up</h3>
           <p className="text-secondary300">
             Access your provider dashboard and manage your services
           </p>
@@ -38,10 +71,10 @@ const SignUp = () => {
 
         <div>
           <form
-            action=""
+            onSubmit={handleSubmit}
             className="flex flex-col w-7/12 mx-auto  gap-4 p-4 border border-secondary400 rounded-lg"
           >
-            <h4 className="text-secondary300">Sign in into your account</h4>
+            <h4 className="text-secondary300">Create your account</h4>
             <InputField
               htmlFor="email"
               id="email"
@@ -49,6 +82,9 @@ const SignUp = () => {
               required
               text="Email Address"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
             />
             <InputField
               htmlFor="password"
@@ -57,21 +93,38 @@ const SignUp = () => {
               required
               text="Password"
               type="password"
+              value={formData.password}
+              onChange={handleChange}
+              name="password"
             />
+            <InputField
+              htmlFor="confirm_password"
+              id="confirm_password"
+              placeholder="********"
+              required
+              text="Confirm Password"
+              type="password"
+              value={formData.confirm_password}
+              onChange={handleChange}
+              name="confirm_password"
+            />
+            {error && (
+              <p className="text-red-500 text-sm" role="alert">{error}</p>
+            )}
             <PrimaryBtn
               bgColor="bg-secondary50"
               hoverColor="bg-seondary200"
-              text="Sign In"
+              text="Sign Up"
               textColor="text-secondary600"
-              href="/dashboard"
+              type="submit"
             />
             <p className="text-center">
               Don&apos;t have an account?
               <Link
-                href="/sign-up"
+                href="/sign-in"
                 className="text-lg ml-2 underline text-secondary100"
               >
-                Sign up
+                Sign in
               </Link>
             </p>
           </form>

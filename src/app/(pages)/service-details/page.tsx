@@ -1,28 +1,8 @@
+import Link from "next/link";
 const ServiceDetailsPage = () => {
   return (
     <>
-      {/* navbar */}
-      <nav className="p-5 flex items-center justify-between border-b">
-        <div className="flex gap-2">
-          <img src="/assets/booking.png" alt="booking" />
-          <div>
-            <h3 className="font-bold ">Bookit</h3>
-            <p className="font-light">Service Details</p>
-          </div>
-        </div>
-
-        <div className="flex gap-3">
-          <div className="flex gap-3 p-2">
-            <img src="/assets/profile.png" alt="profile" className="h-6" />
-            <p className="font-medium">My Bookings</p>
-          </div>
-          <div className="flex gap-3 border border-gray-300 rounded-md p-2">
-            <img src="/assets/shop.png" alt="shop" className="h-6" />
-            <p className="font-medium">Become a Provider</p>
-          </div>
-        </div>
-      </nav>
-
+      
       {/* main section */}
       <main className="flex flex-col justify-center items-center w-1/2 mx-auto mt-10">
         {/* Image section */}
@@ -133,10 +113,11 @@ const ServiceDetailsPage = () => {
 
             </div>
             
-
+           <Link href="/appointments">
             <button className="bg-black hover:bg-gray-600 text-white font-semibold py-2 px-2 rounded-lg transition-colors duration-200 mt-5">
-              Book Now
+              Book Appointment
             </button>
+           </Link>
 
             <p className="text-center text-xs mt-5">Free cancellation up to 24 hours before your appointment</p>
           </div>

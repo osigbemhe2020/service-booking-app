@@ -1,25 +1,70 @@
 "use client";
+import { useMemo } from "react";
 import {createPortal} from 'react-dom';
 import DropdownButton from "@/components/DropdownButton";
 import PrimaryBtn from "@/components/PrimaryButton";
 import CommonFeatures from '@/lib/CommonFeatures'
 import {Heading,SubHeading,Textarea,InputField,Checkbox} from './popupComponents'
 import { LuUpload } from "react-icons/lu";
-// NavBtn from "../../../app/(pages)/sign-up/NavBtn";
+import type { SessionService } from "@/lib/sessionServices";
+import NavBtn from "./NavBtn";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onCreate?: (service: SessionService) => void;
+  value: {
+    title: string;
+    location: string;
+    category: SessionService["category"];
+    description: string;
+    price: string;
+    duration: SessionService["duration"];
+    availability: string;
+    features: string;
+    images: string;
+  };
+  onChange: (next: Props["value"]) => void;
 };
 
 
 
-const BookServicePopup = ({isOpen,onClose}:Props) => {
+const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
     if (!isOpen) return null;
   
+  const formData = useMemo(() => value, [value]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSaveDraft = () => {
+    onClose();
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.title || !formData.category || !formData.duration || !formData.price) return;
+    const cost = Number(formData.price);
+    if (Number.isNaN(cost)) return;
+    onCreate?.({
+      title: formData.title,
+      category: formData.category,
+      cost,
+      duration: formData.duration,
+    });
+    onClose();
+  };
+
     return createPortal(
      <div className="fixed inset-0 bg-[#0000003b] flex items-center justify-center z-50 ">
-      <form action="" className="w-3/8 bg-white mx-auto p-4 max-h-[90vh] rounded-xl overflow-y-scroll">
+      <form onSubmit={handleSubmit} className="w-3/8 bg-white mx-auto p-4 max-h-[90vh] rounded-xl overflow-y-scroll">
         <h5 className="text-lg font-semibold">Add New Service</h5>
         <section className="flex flex-col gap-3 basic-info">
           <Heading text="basic information" />
@@ -30,6 +75,9 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
             required
             text="Service Title"
             type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
           />
           <div className="grid grid-cols-2  gap-2 items-center">
             <DropdownButton
@@ -43,20 +91,28 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
                 "Others",
               ]}
               text="Category"
+              value={formData.category}
+              onChange={(val) => onChange({ ...formData, category: val as SessionService["category"] })}
             />
             <InputField
-              htmlFor="service-title"
-              id="service-title"
-              placeholder="e.g Professional House Cleaning"
+              htmlFor="service-location"
+              id="service-location"
+              placeholder="e.g DownTown Area your location"
               required
-              text="Service Title"
+              text="Service Location"
               type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
             />
           </div>
           <Textarea
             htmlFor="description"
             placeholder="Describe your service in details ... "
             text="Service Description"
+            name="description"
+            value={formData.description}
+            onChange={handleTextAreaChange}
           />
           <hr className="text-secondary500" />
         </section>
@@ -70,6 +126,9 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
               required
               text="Price ($)"
               type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
             />
             <DropdownButton
               htmlFor="duration"
@@ -82,6 +141,8 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
                 "3 hours",
               ]}
               text="Duration (minutes)"
+              value={formData.duration}
+              onChange={(val) => onChange({ ...formData, duration: val as SessionService["duration"] })}
             />
           </div>
           <hr className="text-secondary400 mt-4" />
@@ -145,7 +206,7 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
               htmlFor="image"
               id="image"
               placeholder="Paste image URL here..."
-              required={true}
+              required={false}
               text=""
               type="url"
             />
@@ -168,16 +229,16 @@ const BookServicePopup = ({isOpen,onClose}:Props) => {
           <PrimaryBtn
             bgColor="bg-secondary50"
             hoverColor="bg-secondary300"
-            onClick={onClose}
             text="Create Service"
             textColor="text-secondary800 "
-            href=''
+            type="submit"
           />
-          {/*<NavBtn
-            href="/"
+          <NavBtn
             outlineColor="outline-secondary300"
             text="Save as Draft"
-          />*/}
+            onClick={handleSaveDraft}
+            type="button"
+          />
         </footer>
       </form>
     </div>,

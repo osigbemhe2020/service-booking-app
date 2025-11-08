@@ -23,7 +23,7 @@ const LandingHeader = () => {
         {/* Desktop / tablet nav */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link href="/book-service" className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">Browse Services</Link>
-          <Link href="/sign-up" className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">For Providers</Link>
+          <Link href="/sign-in" className="text-[16px] font-medium text-[rgba(54, 65, 83, 1)] hover:text-blue-500 transition-colors">For Providers</Link>
           <Link href="/sign-up"><button className="py-1 px-3 rounded-[8px] bg-[var(--color-primary200)] text-white">Get Started</button></Link>
         </nav>
 

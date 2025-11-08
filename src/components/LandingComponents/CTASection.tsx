@@ -14,10 +14,13 @@ const CTASection = () => {
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center">
+            
+            <Link href="/book-service">
             <button className="bg-blue-600 hover:bg-blue-700 flex gap-1 text-white px-8 py-3 rounded-md">
               Start Booking Services
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
+            </Link>
             <Link href="/sign-up">
               <button className="px-8 py-3 text-primary500 bg-white rounded-md border-1 border-solid border-secondary300">
                 Become a Provider

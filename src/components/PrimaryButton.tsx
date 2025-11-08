@@ -5,8 +5,9 @@ type PrimaryBtnProps = {
   bgColor: string;
   textColor: string;
   hoverColor: string;
-  href: string;
+  href?: string;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 };
 
 const PrimaryBtn = ({
@@ -15,18 +16,30 @@ const PrimaryBtn = ({
   textColor,
   hoverColor,
   href,
-  onClick
+  onClick,
+  type = "button"
 }: PrimaryBtnProps) => {
+  if (href) {
+    return (
+      <Link href={href}>
+        <button
+          onClick={onClick}
+          type={type}
+          className={`${textColor} ${bgColor} hover:${hoverColor}  w-full focus:ring-4 focus:${hoverColor} font-medium rounded-lg text-sm px-5 py-2.5 cursor-pointer`}
+        >
+          {text}
+        </button>
+      </Link>
+    );
+  }
   return (
-    <Link href={href}>
-      <button
-        onClick={onClick}
-        type="button"
-        className={`${textColor} ${bgColor} hover:${hoverColor}  w-full focus:ring-4 focus:${hoverColor} font-medium rounded-lg text-sm px-5 py-2.5 cursor-pointer`}
-      >
-        {text}
-      </button>
-    </Link>
+    <button
+      onClick={onClick}
+      type={type}
+      className={`${textColor} ${bgColor} hover:${hoverColor}  w-full focus:ring-4 focus:${hoverColor} font-medium rounded-lg text-sm px-5 py-2.5 cursor-pointer`}
+    >
+      {text}
+    </button>
   );
 };
 

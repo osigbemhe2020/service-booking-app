@@ -1,14 +1,15 @@
 "use client";
-import Link from "next/link";
 import { useState } from "react";
 
 type DropdownProps = {
   htmlFor: string;
   text: string;
   options: string[];
+  value?: string;
+  onChange?: (value: string) => void;
 };
 
-const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
+const DropdownButton = ({ htmlFor, text, options, value, onChange }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,7 +24,7 @@ const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        {text}
+        {value || text}
         <svg
           className={`w-2.5 h-2.5 ml-3 transition-transform duration-200 ${
             isOpen ? "rotate-180" : "rotate-0"
@@ -47,12 +48,16 @@ const DropdownButton = ({ htmlFor, text, options }: DropdownProps) => {
           <ul className="text-sm text-secondary50 py-2">
             {options?.map((option) => (
               <li key={option}>
-                <Link
-                  href="#"
-                  className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+                <button
+                  type="button"
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors"
+                  onClick={() => {
+                    onChange?.(option);
+                    setIsOpen(false);
+                  }}
                 >
                   {option}
-                </Link>
+                </button>
               </li>
             ))}
           </ul>

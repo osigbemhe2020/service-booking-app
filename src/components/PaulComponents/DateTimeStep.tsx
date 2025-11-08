@@ -179,7 +179,7 @@ const DateTimeStep: React.FC<DateTimeStepProps> = ({ data, onNext }) => {
     
         <div className="flex gap-4 justify-between">
           <button className='flex-1 border border-slate-300 text-slate-900 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors'>
-            <Link href='/'> Back to Services</Link>
+            <Link href='/book-service'> Back to Services</Link>
           </button>
           <button
             onClick={handleContinue}

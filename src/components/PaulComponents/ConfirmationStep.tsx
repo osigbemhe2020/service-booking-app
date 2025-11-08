@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 interface ConfirmationStepProps {
   data: any
 }
@@ -52,9 +54,11 @@ export default function ConfirmationStep({ data }: ConfirmationStepProps) {
 
       
 
+      <Link href="/my-booking">
       <button className="w-full bg-slate-900 text-white py-3 rounded-lg font-medium hover:bg-slate-800 transition-colors">
         View My Bookings
       </button>
+      </Link>
     </div>
   )
 }

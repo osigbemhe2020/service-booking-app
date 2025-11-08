@@ -1,3 +1,4 @@
+'use client'
 interface TabFilterProps {
   tabs: { label: string; count: number; value: string }[];
   activeTab: string;
