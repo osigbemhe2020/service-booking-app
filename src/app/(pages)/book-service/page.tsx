@@ -94,9 +94,9 @@ const BookServicePage = () => {
               <p>Filters</p>
             </div>
             <div>
-              <label htmlFor="services">All Categories</label>
+             
               <select name="services" id="services">
-                <option value="0"></option>
+                <option value="0"> All Categories</option>
                 <option value="Home Services">Home Services</option>
                 <option value="Consulting">Consulting</option>
                 <option value="Beauty and Wellnes">Beauty and Wellness</option>
