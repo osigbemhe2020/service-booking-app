@@ -1,0 +1,287 @@
+import React, { useState, useEffect } from 'react';
+
+interface BookingSelection {
+  date: string;
+  time: string;
+  dateObject: Date;
+  timestamp: number;
+}
+
+interface DateTimePickerProps {
+  onSelectionChange?: (selection: BookingSelection) => void;
+  initialDate?: string;
+  initialTime?: string;
+}
+
+const DateTimePicker: React.FC<DateTimePickerProps> = ({ 
+  onSelectionChange,
+  initialDate,
+  initialTime 
+}) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(initialTime || null);
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+
+  // Generate 14 days from current date
+  useEffect(() => {
+    const dates: Date[] = [];
+    const today = new Date();
+    
+    for (let i = 0; i < 14; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date);
+    }
+    
+    setAvailableDates(dates);
+    
+    // Set initial date if provided
+    if (initialDate && dates.length > 0) {
+      setSelectedDate(dates[0]);
+    }
+  }, [initialDate]);
+
+  // Available time slots
+  const timeSlots: string[] = [
+    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
+  ];
+
+  const handleDateClick = (date: Date): void => {
+    setSelectedDate(date);
+    updateSelection(date, selectedTime);
+  };
+
+  const handleTimeClick = (time: string): void => {
+    setSelectedTime(time);
+    updateSelection(selectedDate, time);
+  };
+
+  const updateSelection = (date: Date | null, time: string | null): void => {
+    if (date && time && onSelectionChange) {
+      const dateStr = date.toLocaleDateString('en-US', { 
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      });
+      onSelectionChange({
+        date: dateStr,
+        time: time,
+        dateObject: date,
+        timestamp: new Date(`${date.toDateString()} ${time}`).getTime()
+      });
+    }
+  };
+
+  const getDayName = (date: Date): string => {
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
+  };
+
+  const getDay = (date: Date): number => {
+    return date.getDate();
+  };
+
+  return (
+    <div className="w-full bg-white rounded-lg border border-slate-200 p-6">
+      <h2 className="text-2xl font-semibold mb-6 text-slate-900">Date & Time</h2>
+      
+      {/* Date Selection */}
+      <div className="mb-8">
+        <h3 className="text-lg font-medium mb-4 text-slate-900">Select a Date</h3>
+        <div className="grid grid-cols-7 gap-2">
+          {availableDates.map((date, index) => (
+            <button
+              key={index}
+              onClick={() => handleDateClick(date)}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                selectedDate && selectedDate.toDateString() === date.toDateString()
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+              }`}
+            >
+              <div className="text-xs mb-1">{getDayName(date)}</div>
+              <div className="text-xl font-semibold">{getDay(date)}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Time Selection */}
+      <div>
+        <h3 className="text-lg font-medium mb-4 text-slate-900">Available Times</h3>
+        <div className="grid grid-cols-6 gap-3">
+          {timeSlots.map((time) => (
+            <button
+              key={time}
+              onClick={() => handleTimeClick(time)}
+              className={`py-3 px-4 rounded-lg border-2 transition-all font-medium ${
+                selectedTime === time
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+              }`}
+            >
+              {time}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Updated BookingData interface
+interface BookingData {
+  service: string;
+  provider: string;
+  date: string;
+  time: string;
+  duration: number;
+  serviceFee: number;
+  bookingFee: number;
+  name: string;
+  email: string;
+  phone: string;
+}
+
+// DateTimeStep component that integrates with BookingFlow
+interface DateTimeStepProps {
+  data: BookingData;
+  onNext: (data: Partial<BookingData>) => void;
+}
+
+const DateTimeStep: React.FC<DateTimeStepProps> = ({ data, onNext }) => {
+  const [selectedData, setSelectedData] = useState<BookingSelection | null>(null);
+
+  const handleSelectionChange = (selection: BookingSelection): void => {
+    setSelectedData(selection);
+  };
+
+  const handleContinue = (): void => {
+    if (selectedData) {
+      onNext({
+        date: selectedData.date,
+        time: selectedData.time,
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <DateTimePicker 
+        onSelectionChange={handleSelectionChange}
+        initialDate={data.date}
+        initialTime={data.time}
+      />
+      
+      {selectedData && (
+        <div className="flex justify-end">
+          <button
+            onClick={handleContinue}
+            className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
+          >
+            Continue
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Updated BookingSummary component
+interface BookingSummaryProps {
+  data: BookingData;
+}
+
+const BookingSummary: React.FC<BookingSummaryProps> = ({ data }) => {
+  const total = data.serviceFee + data.bookingFee;
+
+  return (
+    <div className="bg-white rounded-lg border border-slate-200 p-6 sticky top-6">
+      <h2 className="text-lg font-semibold text-slate-900 mb-6">Booking Summary</h2>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <p className="text-sm text-slate-600 mb-1">Service</p>
+          <p className="font-medium text-slate-900">{data.service}</p>
+        </div>
+
+        <div>
+          <p className="text-sm text-slate-600 mb-1">Provider</p>
+          <p className="font-medium text-slate-900">{data.provider}</p>
+        </div>
+
+        {data.date && data.time && (
+          <div>
+            <p className="text-sm text-slate-600 mb-1">Date & Time</p>
+            <p className="font-medium text-slate-900">
+              {data.date} at {data.time}
+            </p>
+          </div>
+        )}
+
+        <div>
+          <p className="text-sm text-slate-600 mb-1">Duration</p>
+          <p className="font-medium text-slate-900">{data.duration} minutes</p>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 pt-4 space-y-3">
+        <div className="flex justify-between text-sm">
+          <span className="text-slate-600">Service fee</span>
+          <span className="text-slate-900 font-medium">${data.serviceFee}</span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-slate-600">Booking fee</span>
+          <span className="text-slate-900 font-medium">${data.bookingFee}</span>
+        </div>
+        <div className="flex justify-between text-base font-semibold border-t border-slate-200 pt-3">
+          <span className="text-slate-900">Total</span>
+          <span className="text-slate-900">${total}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Example parent component showing integration
+type Step = "date-time" | "details" | "payment" | "confirmation";
+
+export default function BookingFlow() {
+  const [currentStep, setCurrentStep] = useState<Step>("date-time");
+  const [bookingData, setBookingData] = useState<BookingData>({
+    service: "Professional Home Cleaning",
+    provider: "CleanCo Services",
+    date: "",
+    time: "",
+    duration: 120,
+    serviceFee: 85,
+    bookingFee: 0,
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleNext = (data: Partial<BookingData>) => {
+    setBookingData({ ...bookingData, ...data });
+    // Navigate to next step logic here
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            {currentStep === "date-time" && (
+              <DateTimeStep data={bookingData} onNext={handleNext} />
+            )}
+          </div>
+
+          <div className="lg:col-span-1">
+            <BookingSummary data={bookingData} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
