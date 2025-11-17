@@ -30,9 +30,8 @@ type Props = {
 
 
 const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
-    if (!isOpen) return null;
-  
   const formData = useMemo(() => value, [value]);
+  if (!isOpen) return null;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...formData,
