@@ -44,7 +44,7 @@ const ServiceDetailsPage = () => {
             </div>
 
             <div className="mt-5 flex flex-col gap-4 w-full">
-              <h4>What's Included</h4>
+              <h4>What&apos;s Included</h4>
               <div className="grid grid-cols-2 gap-3">
                 <p className="flex items-center gap-3">
                   <img src="./assets/check.png" alt="check" />
