@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import StepIndicator from "@/components/PaulComponents/StepsIndicator"
 import DateTimeStep from "@/components/PaulComponents/DateTimeStep"
@@ -76,7 +76,7 @@ function BookingSummary({ data }: { data: BookingData }) {
   );
 }
 
-export default function BookingFlow() {
+function BookingFlowContent() {
   const searchParams = useSearchParams();
   const serviceId = searchParams.get("serviceId");
   const supabase = createClient();
@@ -108,7 +108,7 @@ export default function BookingFlow() {
       return;
     }
     loadService();
-  }, [serviceId]);
+  }, [serviceId]); // loadService intentionally omitted to avoid infinite re-fetch loop
 
   const loadService = async () => {
     setLoading(true);
@@ -129,7 +129,7 @@ export default function BookingFlow() {
       serviceId: data.id,
       sellerId: data.seller_id,
       service: data.service_title,
-      provider: (data as any).profiles?.name ?? "Unknown Provider",
+      provider: (data as { profiles?: { name?: string } })?.profiles?.name ?? "Unknown Provider",
       duration: parseDurationToMinutes(data.duration),
       serviceFee: data.price,
       bookingFee: 0,
@@ -175,13 +175,13 @@ export default function BookingFlow() {
   const createBooking = async (finalData: BookingData) => {
     setSubmitting(true);
     setError("");
-  
+
     const { data: userData } = await supabase.auth.getUser();
     const buyerId = userData?.user?.id ?? null;
-  
+
     const bookingDateIso = buildBookingDate(finalData.date, finalData.time);
-  
-    const payload: any = {
+
+    const payload: Record<string, unknown> = {
       seller_id: finalData.sellerId,
       service_id: finalData.serviceId,
       title: finalData.service,
@@ -192,7 +192,7 @@ export default function BookingFlow() {
       price: finalData.serviceFee,
       status: "upcoming",
     };
-  
+
     if (buyerId) {
       payload.buyer_id = buyerId;
     } else {
@@ -200,22 +200,21 @@ export default function BookingFlow() {
       payload.buyer_email = finalData.email;
       payload.buyer_phone = finalData.phone;
     }
-  
+
     const { error: insertError } = await supabase.from("bookings").insert(payload);
-  
+
     setSubmitting(false);
-  
+
     if (insertError) {
       setError(insertError.message);
       return;
     }
-  
+
     setBookingData(finalData);
     setCurrentStep("confirmation");
   };
 
   const buildBookingDate = (dateLabel: string, time: string): string => {
-    // dateLabel looks like "Mon, Jun 22" — reconstruct with current year
     const year = new Date().getFullYear();
     const parsed = new Date(`${dateLabel} ${year} ${time}`);
     return parsed.toISOString();
@@ -265,4 +264,12 @@ export default function BookingFlow() {
       </div>
     </div>
   )
+}
+
+export default function BookingFlow() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400">Loading...</div>}>
+      <BookingFlowContent />
+    </Suspense>
+  );
 }
