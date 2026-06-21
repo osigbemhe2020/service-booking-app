@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import AppointmentForm from "@/components/appointment_form/appointment_form"
+import AppointmentForm, { type AppointmentFormValue } from "@/components/appointment_form/appointment_form"
 
 interface DetailsStepProps {
   data: any
@@ -10,25 +10,38 @@ interface DetailsStepProps {
 }
 
 export default function DetailsStep({ data, onNext, onPrevious }: DetailsStepProps) {
-  const [name, setName] = useState(data.name)
-  const [email, setEmail] = useState(data.email)
-  const [phone, setPhone] = useState(data.phone)
+  const [formValue, setFormValue] = useState<AppointmentFormValue>({
+    firstName: "",
+    lastName: "",
+    email: data.email || "",
+    phone: data.phone || "",
+    notes: "",
+  });
+  const [error, setError] = useState("");
 
   const handleNext = () => {
+    if (!formValue.firstName || !formValue.lastName || !formValue.email || !formValue.phone) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+
     onNext({
-      name,
-      email,
-      phone,
-    })
-  }
+      name: `${formValue.firstName} ${formValue.lastName}`.trim(),
+      email: formValue.email,
+      phone: formValue.phone,
+      notes: formValue.notes,
+    });
+  };
 
   return (
     <div className="bg-white rounded-lg border border-slate-200 p-8">
       <h2 className="text-2xl font-semibold text-slate-900 mb-8">Your Details</h2>
 
       <div className="space-y-6">
-        <AppointmentForm/>
+        <AppointmentForm value={formValue} onChange={setFormValue} />
       </div>
+
+      {error && <p className="text-red-500 text-sm mt-4" role="alert">{error}</p>}
 
       <div className="flex gap-4 mt-8">
         <button

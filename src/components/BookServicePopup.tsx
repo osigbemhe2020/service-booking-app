@@ -1,70 +1,126 @@
 "use client";
-import { useMemo } from "react";
-import {createPortal} from 'react-dom';
+import { useMemo, useState, useCallback, useRef } from "react";
+import { createPortal } from 'react-dom';
+import { useDropzone } from 'react-dropzone';
 import DropdownButton from "@/components/DropdownButton";
 import PrimaryBtn from "@/components/PrimaryButton";
 import CommonFeatures from '@/lib/CommonFeatures'
-import {Heading,SubHeading,Textarea,InputField,Checkbox} from './popupComponents'
+import { Heading, SubHeading, Textarea, InputField } from './popupComponents'
 import { LuUpload } from "react-icons/lu";
-import type { SessionService } from "@/lib/sessionServices";
 import NavBtn from "./NavBtn";
+
+export type ServiceFormValue = {
+  title: string;
+  location: string;
+  category: string;
+  description: string;
+  price: string;
+  duration: string;
+  availability: string;
+  customFeature: string;
+  imageFile: File | null;
+};
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onCreate?: (service: SessionService) => void;
-  value: {
-    title: string;
-    location: string;
-    category: SessionService["category"];
-    description: string;
-    price: string;
-    duration: SessionService["duration"];
-    availability: string;
-    features: string;
-    images: string;
-  };
-  onChange: (next: Props["value"]) => void;
+  onCreate: (service: ServiceFormValue) => Promise<void>;
+  value: ServiceFormValue;
+  onChange: (next: ServiceFormValue) => void;
 };
 
+const AVAILABILITY_OPTIONS = [
+  "Morning (6AM - 12PM)",
+  "Afternoon (12PM - 6PM)",
+  "Evening (6PM - 12AM)",
+];
 
-
-const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
-    if (!isOpen) return null;
-  
+const BookServicePopup = ({ isOpen, onClose, onCreate, value, onChange }: Props) => {
   const formData = useMemo(() => value, [value]);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const modalRef = useRef<HTMLFormElement>(null);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+    onChange({ ...formData, imageFile: file });
+    setImagePreview(URL.createObjectURL(file));
+  }, [formData, onChange]);
+
+  const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+    onDrop,
+    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+    maxFiles: 1,
+    maxSize: 5 * 1024 * 1024, // 5MB
+  });
+
+  if (!isOpen) return null;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    onChange({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onChange({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    onChange({ ...formData, [e.target.name]: e.target.value });
   };
+
   const handleSaveDraft = () => {
     onClose();
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.title || !formData.category || !formData.duration || !formData.price) return;
-    const cost = Number(formData.price);
-    if (Number.isNaN(cost)) return;
-    onCreate?.({
-      title: formData.title,
-      category: formData.category,
-      cost,
-      duration: formData.duration,
-    });
-    onClose();
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // only close if the click landed on the backdrop itself, not inside the form
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      onClose();
+    }
   };
 
-    return createPortal(
-     <div className="fixed inset-0 bg-[#0000003b] flex items-center justify-center z-50 ">
-      <form onSubmit={handleSubmit} className="w-3/8 bg-white mx-auto p-4 max-h-[90vh] rounded-xl overflow-y-scroll">
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError("");
+
+    if (!formData.title || !formData.category || !formData.duration || !formData.price) {
+      setFormError("Please fill in all required fields.");
+      return;
+    }
+    if (!formData.availability) {
+      setFormError("Please select an availability period.");
+      return;
+    }
+    const cost = Number(formData.price);
+    if (Number.isNaN(cost)) {
+      setFormError("Price must be a valid number.");
+      return;
+    }
+    if (!formData.imageFile) {
+      setFormError("Please add at least one image.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await onCreate(formData);
+      onClose();
+    } catch (err: any) {
+      setFormError(err.message || "Failed to create service.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return createPortal(
+    <div
+      className="fixed inset-0 bg-[#0000003b] flex items-center justify-center z-50"
+      onMouseDown={handleBackdropClick}
+    >
+      <form
+        ref={modalRef}
+        onSubmit={handleSubmit}
+        onMouseDown={(e) => e.stopPropagation()}
+        className="w-3/8 bg-white mx-auto p-4 max-h-[90vh] rounded-xl overflow-y-scroll"
+      >
         <h5 className="text-lg font-semibold">Add New Service</h5>
         <section className="flex flex-col gap-3 basic-info">
           <Heading text="basic information" />
@@ -82,17 +138,10 @@ const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
           <div className="grid grid-cols-2  gap-2 items-center">
             <DropdownButton
               htmlFor="Category"
-              options={[
-                "Consulting",
-                "Design",
-                "Development",
-                "Repair",
-                "Training",
-                "Others",
-              ]}
+              options={["Consulting", "Design", "Development", "Repair", "Training", "Others"]}
               text="Category"
               value={formData.category}
-              onChange={(val) => onChange({ ...formData, category: val as SessionService["category"] })}
+              onChange={(val) => onChange({ ...formData, category: val })}
             />
             <InputField
               htmlFor="service-location"
@@ -132,104 +181,101 @@ const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
             />
             <DropdownButton
               htmlFor="duration"
-              options={[
-                "15 mins",
-                "30 mins",
-                "45 mins",
-                "1 hour",
-                "2 hours",
-                "3 hours",
-              ]}
+              options={["15 mins", "30 mins", "45 mins", "1 hour", "2 hours", "3 hours"]}
               text="Duration (minutes)"
               value={formData.duration}
-              onChange={(val) => onChange({ ...formData, duration: val as SessionService["duration"] })}
+              onChange={(val) => onChange({ ...formData, duration: val })}
             />
           </div>
           <hr className="text-secondary400 mt-4" />
         </section>
+
         <section className="flex flex-col gap-3">
           <Heading text="availability" />
-          <SubHeading title="Select the time periods when you're available to provide this service" />
-          <div>
-            <Checkbox
-              htmlFor="morning"
-              text="Morning (6AM - 12PM)"
-              value="morning"
-            />
-            <Checkbox
-              htmlFor="afternoon"
-              text="Afternoon (12PM - 6PM)"
-              value="morning"
-            />
-            <Checkbox
-              htmlFor="evening"
-              text="Evening(6AM - 12PM)"
-              value="evening"
-            />
+          <SubHeading title="Select the time period when you're available to provide this service" />
+          <div className="flex flex-col gap-2">
+            {AVAILABILITY_OPTIONS.map((option) => (
+              <label key={option} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="availability"
+                  value={option}
+                  checked={formData.availability === option}
+                  onChange={() => onChange({ ...formData, availability: option })}
+                />
+                <span>{option}</span>
+              </label>
+            ))}
           </div>
           <hr className="text-secondary500" />
         </section>
+
         <section className="flex flex-col gap-2">
           <Heading text="service features" />
           <SubHeading title="Highlight what makes your service special" />
           <Heading text="Common features" />
           <ul className="grid grid-cols-3 gap-1 place-content-center capitalize">
             {CommonFeatures?.map((feature) => (
-              <li
-                key={feature.id}
-                className=" text-center text-xs p-2  whitespace-nowrap font-medium rounded-md border border-secondary300"
-              >
+              <li key={feature.id} className=" text-center text-xs p-2  whitespace-nowrap font-medium rounded-md border border-secondary300">
                 {feature.name}
               </li>
             ))}
           </ul>
-          <div className="grid grid-cols-[1fr_auto] items-end gap-2">
-            <InputField
-              htmlFor="custom-feature"
-              id="custom-feature"
-              placeholder="Add a custom feature ..."
-              required={false}
-              text="Custom Features"
-              type="text"
-            />
-            <span className="py-1 px-3 bg-secondary400 rounded-md text-xl block hover:cursor-pointer hover:bg-gray-300">
-              +
-            </span>
-          </div>
+          <InputField
+            htmlFor="custom-feature"
+            id="custom-feature"
+            placeholder="Add a custom feature ..."
+            required={false}
+            text="Custom Features"
+            type="text"
+            name="customFeature"
+            value={formData.customFeature}
+            onChange={handleChange}
+          />
           <hr className="text-secondary500 mt-2" />
         </section>
+
         <section className="py-4 flex flex-col gap-3">
-          <Heading text="Service Images" />
-          <SubHeading title="Add images to showcase your service (paste image URLs)" />
-          <div className="grid grid-cols-[1fr_auto] items-end gap-2">
-            <InputField
-              htmlFor="image"
-              id="image"
-              placeholder="Paste image URL here..."
-              required={false}
-              text=""
-              type="url"
-            />
-            <span className="py-1 px-3 bg-secondary400 rounded-md text-xl block hover:cursor-pointer hover:bg-gray-300">
-              +
-            </span>
+          <Heading text="Service Image" />
+          <SubHeading title="Add an image to showcase your service" />
+
+          <div
+            {...getRootProps()}
+            className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center gap-3 cursor-pointer transition-colors ${
+              isDragActive ? "border-secondary500 bg-secondary50" : "border-secondary400"
+            }`}
+          >
+            <input {...getInputProps()} />
+            {imagePreview ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={imagePreview} alt="Preview" className="max-h-40 rounded-md" />
+            ) : (
+              <>
+                <LuUpload className="text-4xl text-secondary300 font-extrabold" />
+                <p className="text-secondary300 text-center">
+                  {isDragActive
+                    ? "Drop the image here..."
+                    : "Drag & drop an image here, or click to choose a file"}
+                </p>
+                <p className="text-secondary300 text-xs">PNG, JPG, or WEBP — max 5MB</p>
+              </>
+            )}
           </div>
-          <div className="paceholder flex flex-col gap-4 items-center border border-secondary400 rounded-xl p-10">
-            <LuUpload className="text-4xl text-secondary300 font-extrabold" />
-            <p className="text-secondary300 flex flex-col text-center">
-              <span>
-                No images added yet. Add at least one image to showcase your
-                service.
-              </span>
+          {fileRejections.length > 0 && (
+            <p className="text-red-500 text-sm">
+              {fileRejections[0].errors[0].message}
             </p>
-          </div>
+          )}
           <hr className="text-secondary500 mt-3" />
         </section>
+
+        {formError && <p className="text-red-500 text-sm" role="alert">{formError}</p>}
+
         <footer className="grid grid-cols-2 gap-4 mt-6">
           <PrimaryBtn
             bgColor="bg-secondary50"
             hoverColor="bg-secondary300"
-            text="Create Service"
+            text={submitting ? "Creating..." : "Create Service"}
             textColor="text-secondary800 "
             type="submit"
           />
@@ -247,4 +293,3 @@ const BookServicePopup = ({isOpen,onClose,onCreate,value,onChange}:Props) => {
 };
 
 export default BookServicePopup;
-

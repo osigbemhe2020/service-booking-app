@@ -1,12 +1,11 @@
-'use client';
-import {InputField} from '@/components/popupComponents'
+ 'use client';
+import { InputField } from '@/components/popupComponents'
 import PrimaryBtn from "@/components/PrimaryButton";
 import Link from "next/link";
 import { BiStore } from "react-icons/bi";
 import { useState } from "react";
-import { addUser, findUserByEmail } from "@/lib/sessionUsers";
 import { useRouter } from "next/navigation";
-
+import { createClient } from "@/utils/supabase/client";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +15,12 @@ const SignUp = () => {
   });
 
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const supabase = createClient();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevData) => ({    
+    setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }));
@@ -31,7 +32,7 @@ const SignUp = () => {
     return re.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { email, password, confirm_password } = formData;
 
@@ -47,17 +48,28 @@ const SignUp = () => {
       setError("Passwords do not match.");
       return;
     }
-    if (findUserByEmail(email)) {
-      setError("An account with this email already exists.");
+
+    setLoading(true);
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    setLoading(false);
+
+    if (signUpError) {
+      if (signUpError.message.toLowerCase().includes("already registered")) {
+        setError("An account with this email already exists.");
+      } else {
+        setError(signUpError.message);
+      }
       return;
     }
 
-    addUser({ email, password });
     router.push("/sign-in");
   };
+
   return (
     <section className="w-full">
-      
       <main className=" mx-auto my-10">
         <div className="flex flex-col gap-1 items-center mb-4">
           <div className="h-18 w-18 bg-secondary400 rounded-full flex items-center justify-center text-3xl">
@@ -114,7 +126,7 @@ const SignUp = () => {
             <PrimaryBtn
               bgColor="bg-secondary50"
               hoverColor="bg-seondary200"
-              text="Sign Up"
+              text={loading ? "Signing up..." : "Sign Up"}
               textColor="text-secondary600"
               type="submit"
             />
